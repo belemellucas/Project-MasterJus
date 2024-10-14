@@ -1,0 +1,47 @@
+{
+  "name": "next-blog-yt",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "@prisma/client": "^5.17.0",
+    "@types/nodemailer": "^6.4.15",
+    "@types/react-tagsinput": "^3.20.6",
+    "@types/streamifier": "^0.1.2",
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^2.4.0",
+    "date-fns": "^3.6.0",
+    "dayjs": "^1.11.13",
+    "form-data": "^4.0.0",
+    "handlebars": "^4.7.8",
+    "next": "14.0.4",
+    "next-auth": "^4.24.5",
+    "nodemailer": "^6.9.14",
+    "prop-types": "^15.8.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-easy-crop": "^5.0.8",
+    "react-hook-form": "^7.52.1",
+    "react-icons": "^5.2.1",
+    "react-responsive": "^10.0.0",
+    "react-table": "^7.8.0",
+    "react-tagsinput": "^3.20.3",
+    "react-toastify": "^10.0.4",
+    "swiper": "^11.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "autoprefixer": "^10.0.1",
+    "nock": "^13.5.4",
+    "postcss": "^8",
+    "prisma": "^5.16.2",
+    "tailwindcss": "^3.3.0",
+    "typescript": "5.5.3"
+  }
+}

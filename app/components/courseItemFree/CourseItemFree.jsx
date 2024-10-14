@@ -1,0 +1,93 @@
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
+
+const CourseItemFree = ({ card }) => {
+  const { id, imageCard, infoCard, subCurso, linkCurso, linkCursoGratuito } = card || {};
+  const [showMore, setShowMore] = useState(false);
+
+  return (
+    <>
+      <div className="flex flex-col md:max-w-[307px] max-w-full">
+        <div className="flex flex-col justify-center text-2xl font-bold leading-8 text-center text-white whitespace-nowrap bg-zinc-100 relative"></div>
+        <div className="flex flex-col px-6 py-7 w-full bg-white rounded-2xl border border-solid border-zinc-100 max-md:px-5">
+          <Link href={linkCursoGratuito}>
+            {imageCard ? (
+              <div className="relative w-full h-[260px] mb-4 rounded-md overflow-hidden">
+                <Image
+                  src={imageCard[0]}
+                  alt={`Image ${imageCard[0]}`}
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              </div>
+            ) : null}
+          </Link>
+
+          <div>
+            <h3 className="text-lg font-bold text-center text-gray-900 break-words">
+              {showMore ? infoCard : <span className="line-clamp-2 h-13">{infoCard}</span>}
+            </h3>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium text-center text-gray-600 break-words">
+              {showMore ? subCurso : <span className="line-clamp-2 h-15">{subCurso}</span>}
+            </h3>
+          </div>
+
+          <div className="flex justify-center my-2">
+            <button
+              onClick={() => setShowMore(!showMore)}
+              className="text-xs text-blue-600 hover:underline"
+            >
+              {showMore ? "Ver Menos" : "Ver Mais"}
+            </button>
+          </div>
+
+          <div className="flex gap-5 justify-between px-0.5 w-full">
+            <div className="flex gap-1.5 self-start text-sm font-semibold leading-7 text-center text-rose-500 whitespace-nowrap">
+              <div className="flex justify-center mt-6">
+                <Link href={linkCursoGratuito}>
+                  <button className="px-4 py-2 text-sm font-semibold text-white bg-blue-800 rounded-full w-40 cursor-pointer transform transition-transform duration-300 hover:scale-105">
+                    Saiba Mais
+                  </button>
+                </Link>
+              </div>
+            </div>
+            <div className="flex gap-0">
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/762c62323dcb14e78992f90024b9738e0f1da0799023b03410e90301c9a34dd0?"
+                className="shrink-0 w-3.5 aspect-[1.08]"
+              />
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/ebaaebb54b1056061a97dd735cee7dc37ac9b627d3e06e71cca04d6b1b2adacb?"
+                className="shrink-0 aspect-square w-[13px]"
+              />
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/94d8988a55db159696fc299a9d84ae3b4d57d357122a7372338123b322e07db9?"
+                className="shrink-0 w-3.5 aspect-[1.08]"
+              />
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/6462c7e3479c4d57e52094108ce6405dc4eb31e53ef82f04e69a2f21f35b9b2d?"
+                className="shrink-0 aspect-square w-[13px]"
+              />
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/365e4c6c16ce974cd06cbafe24150ffc4c0625a47e788fca08591151681423c3?"
+                className="shrink-0 w-3.5 aspect-[1.08]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CourseItemFree;

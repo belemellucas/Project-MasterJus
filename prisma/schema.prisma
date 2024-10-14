@@ -1,0 +1,249 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  username    String
+  email       String    @unique
+  password    String
+  imgUser     String[]
+  role        Role      @default(USER)
+  permissions String[]
+  interestedTopics String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Comment     Comment[]
+  Blog        Blog[]
+  Cards       Cards[]
+  UserInfo    UserInfo[]
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  authorId  String   @db.ObjectId
+  author    User?    @relation(fields: [authorId], references: [id])
+  text      String
+  blogId    String   @db.ObjectId
+  blog      Blog?    @relation(fields: [blogId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Blog {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl    String[]
+  imageAnex   String?
+  subtitulo   String
+  autorBlog   String?
+  title       String
+  description String?
+  tags        String[]
+  authorId    String    @db.ObjectId
+  author      User?     @relation(fields: [authorId], references: [id])
+  category    String?
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  comments    Comment[]
+}
+
+model Cards {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  infoCard    String?
+  catId       String?    @db.ObjectId
+  categoria   CatCurso? @relation(fields: [catId], references: [id])
+  infoId      String?    @db.ObjectId
+  courseInfo  InfoCourse?  @relation(fields: [infoId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentCourse  ContentCourse?  @relation("ContentToCard")
+  teachers    CourseTeachers[]  @relation("CourseTeachers")
+  coordinators CourseCoordinators[] @relation("CourseCoordinators")
+  imageCard   String[]
+  imageBackground   String[]
+  imageHome   String[]
+  valorAvista    String?
+  valorAntAvista  String?
+  valorAtualCartao  String?
+  valorAntCartao    String?
+  discount       Boolean?      @default(false)
+  numParcela  Int?
+  linkCurso   String?
+  linkCursoAvista String?
+  linkCursoGratuito String? 
+  autorLivro  String?
+  avaliacao   String?
+  tituloCurso String?
+  subCurso    String?
+  DescCurso   String
+  authorId    String?    @db.ObjectId
+  author      User?     @relation(fields: [authorId], references: [id])
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model InfoSite {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  imageAnex   String[]
+  imageMob    String[]
+  linkVideo   String?
+  tituloVideo String?
+  descVideo   String?
+  courseLinksDesktop  String[]
+  courseLinksMobile   String[]
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Depoimento {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  imageDep    String[] 
+  depoimento  String?
+  autorDepo   String?
+  approved    Boolean   @default(false)
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+model CatCurso{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  NomeCat     String
+  cards       Cards[]
+  menuItems   MenuItems[]
+  isExternalLink       Boolean?      @default(false)
+  linkExternal String?
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+model UserInfo{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @db.ObjectId
+  user        User?     @relation(fields: [userId], references: [id])
+  cpf         String?
+  nome        String?
+  email       String?
+  celular     String?
+  cep         String?
+  endereco    String?
+  numero      String?
+  complemento String?
+  bairro      String
+  cidade      String
+  estado      String
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Lead{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  nome        String
+  email       String
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model MenuItems{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  type        String
+  rota        String?
+  catId       String?   @db.ObjectId
+  category    CatCurso? @relation(fields: [catId], references: [id])
+  isExternalLink Boolean  @default(false)
+}
+
+model InfoCourse{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  title       String[]
+  description String[]
+  card        Cards[]    
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model ContentCourse{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String[]
+  description String[]    
+  cardId      String    @unique @db.ObjectId 
+  card        Cards?    @relation(fields: [cardId], references: [id], name: "ContentToCard") 
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+
+model Teachers{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  academic    String[]
+  courseTeachers CourseTeachers[]   @relation("CourseTeachers")
+  imageTeacher      String[]
+  type              String
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Coordinators{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  academic    String[]
+  courseCoordinators CourseCoordinators[] @relation("CourseCoordinators")
+  imageTeacher      String[]
+  type              String
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model CourseTeachers {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  cardId   String    @db.ObjectId
+  card     Cards     @relation(fields: [cardId], references: [id], name: "CourseTeachers")
+  teacherId  String    @db.ObjectId
+  teacher    Teachers  @relation(fields: [teacherId], references: [id], name: "CourseTeachers")
+
+  @@unique([cardId, teacherId])
+}
+
+model CourseCoordinators {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  cardId   String    @db.ObjectId
+  card     Cards     @relation(fields: [cardId], references: [id], name: "CourseCoordinators")
+  coordinatorId String @db.ObjectId
+  coordinator   Coordinators @relation(fields: [coordinatorId], references: [id], name: "CourseCoordinators")
+
+  @@unique([cardId, coordinatorId])
+}
+
+model ImageAdjustments {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl  String     @unique
+  crop     Json
+  zoom     Float
+}
+
+
+enum Role {
+  ADMIN
+  EDITOR
+  USER
+}
